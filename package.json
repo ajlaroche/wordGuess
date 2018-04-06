@@ -1,0 +1,23 @@
+{
+  "name": "wordGuess",
+  "version": "1.0.0",
+  "description": "Command line game where the user guesses letters of a word",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajlaroche/wordGuess.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajlaroche/wordGuess/issues"
+  },
+  "homepage": "https://github.com/ajlaroche/wordGuess#readme",
+  "dependencies": {
+    "inquirer": "^5.2.0"
+  }
+}

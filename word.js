@@ -3,8 +3,11 @@ var Letter = require("./letter.js");
 // var chosenWord = "dallas";
 // var chosenWordBreak = [];
 
+var lastShownWord = "";
+var winningWord = "";
+var previousGuess = "";
 
-
+//Converts target word to array for testing
 function wordConverter(chosenWord) {
     var hiddenWord = [];
     for (var i = 0; i < chosenWord.length; i++) {
@@ -14,12 +17,28 @@ function wordConverter(chosenWord) {
     return hiddenWord;
 };
 
+//function test user guess against word and prints result on screen
 function wordDisplay(hiddenWord) {
     var shownWord = "";
+    var firstTest = false;
+    winningWord = "";
+
     for (var i = 0; i < hiddenWord.length; i++) {
         shownWord += hiddenWord[i].flip() + " ";
+        winningWord += hiddenWord[i].flip();
+        if (hiddenWord[i].guess == true) {   //used only for first test when there is no lastShownWord
+            firstTest = true;
+        }
     }
-    console.log("shownWord is " + shownWord);
+
+    if (shownWord === lastShownWord || firstTest == false) {
+        console.log("\nINCORRECT!!!");
+    } else {
+        console.log("\nCORRECT!!!");
+    }
+
+    lastShownWord = shownWord;
+    console.log("\nHere is your puzzle: " + shownWord);
     return shownWord;
 }
 
@@ -28,12 +47,18 @@ function wordDisplay(hiddenWord) {
 module.exports = function Word(chosenWord) {
     this.hiddenWord = wordConverter(chosenWord);
     this.testWword = function (character) {
+        previousGuess += character;
         for (var i = 0; i < this.hiddenWord.length; i++) {
             this.hiddenWord[i].pick(character);
         }
     }
     this.shownWord = function () {
         wordDisplay(this.hiddenWord);
+        if (winningWord === chosenWord) {
+            lastShownWord = "";
+            previousGuess = ""
+        }
+        return winningWord;
     }
 
 };

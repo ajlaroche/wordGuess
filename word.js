@@ -1,4 +1,5 @@
 var Letter = require("./letter.js");
+const chalk = require("chalk");
 
 // var chosenWord = "dallas";
 // var chosenWordBreak = [];
@@ -32,13 +33,13 @@ function wordDisplay(hiddenWord) {
     }
 
     if (shownWord === lastShownWord || firstTest == false) {
-        console.log("\nINCORRECT!!!");
+        console.log(chalk.red("\nINCORRECT!!!"));
     } else {
-        console.log("\nCORRECT!!!");
+        console.log(chalk.green("\nCORRECT!!!"));
     }
 
     lastShownWord = shownWord;
-    console.log("\nHere is your puzzle: " + shownWord);
+    console.log(chalk.bold("\nHere is your puzzle: " + shownWord + "\n"));
     return shownWord;
 }
 
@@ -63,5 +64,3 @@ module.exports = function Word(chosenWord) {
 
 };
 
-// wordConverter(chosenWord);
-// wordDisplay(wordConverter(chosenWord));

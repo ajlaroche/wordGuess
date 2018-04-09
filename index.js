@@ -1,8 +1,8 @@
 var Word = require("./word.js");
-
+const chalk = require("chalk");
 var inquirer = require("inquirer");
 
-var wordLibrary = ["horse", "cowboy", "shotgun", "ranch", "cattle", "longhorn", "aggie", "rodeo", "dallas", "houston", "austin", "galveston bay", "barbecue", "bluebonnet", "padre island", "rio grande", "permian basin"];
+var wordLibrary = ["horse", "cowboys", "shotgun", "ranch", "cattle", "longhorn", "aggie", "rodeo", "dallas", "houston", "austin", "galveston bay", "barbecue", "bluebonnet", "padre island", "rio grande", "permian basin", "big bend", "corpus christi", "the alamo", "san antonio", "livestock", "lone star", "brisket"];
 
 var randomWord = "";
 var randomWordArr = [];
@@ -18,14 +18,12 @@ var initialDashes = "";
 var randomStorage = [];
 
 function startGame() {
-    // randomWord = wordLibrary[Math.floor(Math.random() * wordLibrary.length)];
     randomGenerator();
     randomWordArr = [];
     numberGuesses = randomWord.length + 10;
     for (var i = 0; i < randomWord.length; i++) {  //break up random word into array to be able to identify spaces
         randomWordArr[i] = randomWord.charAt(i);
     }
-    // console.log(randomWord);
     for (var i = 0; i < randomWordArr.length; i++) {
         if (randomWordArr[i] === " ") {
             wordPreview[i] = " ";
@@ -34,7 +32,7 @@ function startGame() {
         }
         initialDashes += wordPreview[i] + " ";
     }
-    console.log("Here is your puzzle: " + initialDashes + " \n");
+    console.log(chalk.bold("\nHere is your puzzle: " + initialDashes + " \n"));
     chosenWord = new Word(randomWord);
     guessCount = 0;
     checkGuesses = [];
@@ -46,8 +44,6 @@ function startGame() {
 
 startGame();
 
-// console.log(chosenWord);
-// console.log(chosenWord.shownWord());
 
 function restartGame() {
     inquirer.prompt([
@@ -97,25 +93,26 @@ function getUserInput() {
                 message: "Please choose a letter",
                 validate: function (input) {
                     if (input.length !== 1) {
-                        console.log("\nPlease only enter 1 character\n")
+                        console.log("\n\nPlease only enter 1 character\n");
                     } else {
                         return true;
                     }
                 }
             }
         ]).then(function (user) {
-
-            chosenWord.testWword(user.character);
-            var wordUpdate = chosenWord.shownWord();
-            // console.log(randomWord + " " + wordUpdate);
+            checkRepeatGuesses(user.character);
+            if (guessCheckResult === false) {
+                chosenWord.testWword(user.character);
+                var wordUpdate = chosenWord.shownWord();
+            }
             if (wordUpdate === randomWord) {
-                console.log("\nCONGRATULATIONS! You found the word.\n");
+                console.log(chalk.bold.green("\nCONGRATULATIONS! You found the word.\n"));
                 restartGame();
-            } else if (guessRemaining === 0) {
-                console.log("\nSorry! You ran out of guesses. GAME OVER.\n")
+            } else if (guessRemaining === 0 && guessCheckResult === false) {
+                console.log(chalk.bold.red("\nSorry! You ran out of guesses. GAME OVER.\n"));
                 restartGame();
             } else {
-                checkRepeatGuesses(user.character);
+
                 getUserInput();
             }
         })
@@ -147,12 +144,12 @@ function randomGenerator() {
 
     randomStorage.push(randomWord);
 
-    if (randomStorage.length === wordLibrary.length - 1) {
+    if (randomStorage.length === wordLibrary.length) {
         randomStorage = [];
     }
 
-    console.log(randomWord);
-    console.log(randomStorage)
+    // console.log(randomWord);
+    // console.log(randomStorage)
 }
 
 

@@ -43,7 +43,7 @@ function wordDisplay(hiddenWord) {
 }
 
 
-
+// first convert random word to an array, then test user entered characters against array
 module.exports = function Word(chosenWord) {
     this.hiddenWord = wordConverter(chosenWord);
     this.testWword = function (character) {
